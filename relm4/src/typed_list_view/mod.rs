@@ -299,7 +299,9 @@ where
     ///
     /// Returns [`None`] if the position is invalid.
     pub fn get(&self, position: u32) -> Option<TypedListItem<T>> {
-        if let Some(obj) = self.store.item(position) {
+        // By getting the item from the position of the active model, this
+        // takes into account the Filtering and Sorting that is taking place.
+        if let Some(obj) = self.active_model.item(position) {
             let wrapper = obj.downcast::<glib::BoxedAnyObject>().unwrap();
             Some(TypedListItem::new(wrapper))
         } else {
